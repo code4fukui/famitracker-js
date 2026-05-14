@@ -1,54 +1,87 @@
 # FamiTracker CX
 
-**This is an old project that I worked on. It has since been discontinued.**
-I'm putting it here for "historical" reasons.
+> 日本語のREADMEはこちらです: [README.ja.md](README.ja.md)
 
-Most of the core code is written by Jonathan Liss (jsr) and other contributors,
-as taken from the original FamiTracker project at
-[http://famitracker.com/](http://famitracker.com/). Almost everything in the
-`famitracker-core` directory, with some changes by me, is written by him.
-Everything else not in `famitracker-core` is written by Dan Spencer.
+> A discontinued cross-platform port of the FamiTracker NES/Famicom music tracker.
 
-## What is FamiTracker CX?
-FamiTracker CX is a free cross-platform fork of FamiTracker.
+> **Note:** The repository is named "famitracker-js", but this is a C++ project. The name is a historical artifact.
 
-FamiTracker CX is created in order to bring the popular NES/Famicom music
-tracker to Linux. More platforms such as Mac OS X are planned when circumstances
-permit them.
+> **Project Status: Discontinued**
+> This is an archived project, preserved for historical reasons. It is no longer maintained.
 
-The optional GUI is rewritten from scratch using the cross-platform Qt 4
-library. An ncurses player is also available for terminal nerds.
+FamiTracker CX is a free, cross-platform fork of the popular [FamiTracker](http://famitracker.com/), created to bring the NES/Famicom music tracker to Linux. The core code is based on the original work by Jonathan Liss (jsr), with the porting effort and new components written by Dan Spencer.
 
-ALSA and JACK are the two supported audio APIs. More are planned as the Windows
-and OS X ports are completed.
+## Features
 
-The software license is mixed GPL v2/New BSD.
+*   **Cross-Platform GUI:** The original Windows-based UI was rewritten from scratch using the Qt 4 library to run natively on Linux.
+*   **Multiple Interfaces:** Includes a full graphical editor (Qt), a terminal-based player (ncurses), and a simple command-line player.
+*   **Linux Audio Support:** Natively supports ALSA and JACK audio backends.
+*   **Modular Architecture:** The original codebase was refactored into reusable components to support different frontends.
+*   **Expansion Chip Support:** Emulates various sound chips, including VRC6, MMC5, FDS, and VRC7.
 
-![Screenshot 1](img/screenshot1.png)
-![Screenshot 2](img/screenshot2.png)
+## Building from Source
 
-## Post-Mortem
-### Challenges
-* Porting MFC/Win32 to Qt
-* Modularising the original code into reusable components, as a requirement to
-  allow for many UI frontends.
-  (the original kept all .cpp files in a single directory!)
-* Lingering undefined behavior created bugs in the Linux version
+### Dependencies
+*   CMake
+*   A C++ compiler (e.g., g++)
+*   Qt 4 development libraries
+*   ALSA development libraries (`libasound2-dev`)
+*   JACK development libraries (`libjack-dev`)
+*   ncurses development libraries (`libncurses5-dev`)
+*   Boost Thread library (`libboost-thread-dev`)
 
-### Coding Mistakes in FamiTracker CX
-* The "thread pool" is not actually a thread pool, but a message queue.
-* Using the `type_t` notation on structs and not typedefs.
-* Using global state to keep document data for the Qt GUI.
-* The sound sink implementations abused inheritence, leading to many audio bugs.
+### Instructions
+```bash
+# Clone the repository
+git clone https://github.com/your-user/famitracker-js.git
+cd famitracker-js
 
-### If this project were attempted again
-Closer coordination with the original author (jsr) to organize the code base to
-become reusable. There would have been much to ask from jsr, such as keeping a
-development branch available at all times through Git or some other DVCS.
-That alone I think would have solved many of the problems being addressed
-by this project.
+# Configure the build
+cmake .
 
-Ultimately, many open source projects suffer from organizational issues.
-This is a primary reason I think forks of projects are created instead of
-everyone contributing to a single project. That's why I created a fork
-for FamiTracker CX, but it was probably a misplaced reason.
+# Compile the project
+make
+```
+
+## Usage
+
+After building, you can run the different interfaces using the provided shell scripts, which set the correct library paths.
+
+*   **Qt GUI:** `./src/qt-gui/install/famitracker-qt.sh`
+*   **ncurses Player:** `./src/ncurses-ui/install/famitracker-nc.sh`
+*   **Console Player:** `./src/console-play-ui/install/famitracker-play.sh`
+
+## Project Post-Mortem
+
+This section is preserved from the original author's notes on the project's challenges and lessons learned.
+
+#### Challenges
+*   Porting the MFC/Win32 codebase to Qt.
+*   Modularizing the original code into reusable components to allow for multiple UI frontends (the original kept all `.cpp` files in a single directory).
+*   Lingering undefined behavior in the original code created bugs in the Linux version.
+
+#### Coding Mistakes in FamiTracker CX
+*   The "thread pool" was implemented as a message queue, not a true thread pool.
+*   Using the `type_t` notation on structs instead of `typedefs`.
+*   Using global state to manage document data for the Qt GUI.
+*   The sound sink implementations abused inheritance, leading to many audio bugs.
+
+#### If This Project Were Attempted Again
+Closer coordination with the original author (jsr) would have been key. Organizing the code base to be reusable from the start and keeping a development branch available via a DVCS like Git would have solved many of the problems this fork aimed to address.
+
+## Credits and Attribution
+
+*   **Original FamiTracker:** Jonathan Liss (jsr) and other contributors. Project page: [http://famitracker.com/](http://famitracker.com/)
+*   **FamiTracker CX Port:** Dan Spencer (nukethepotato)
+*   **Icon:** Kuhneghetz
+*   **Toolbar Icons:** ilkke
+*   **Export Plugin Support:** Gradualore
+*   **DPCM Import Resampler:** Jahrmander
+*   **Third-Party Libraries:**
+    *   `blip_buffer` by blargg
+    *   YM2413 & YM2149 emulators by Mitsutaka Okazaki
+    *   FDS sound emulator from nezplug
+
+## License
+
+MIT License — see [LICENSE](LICENSE).
