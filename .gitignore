@@ -1,2 +1,7 @@
 # Qt Creator will generate these files
 CMakeLists.txt.user
+
+# meta-ops cleanup
+.DS_Store
+Thumbs.db
+node_modules/
